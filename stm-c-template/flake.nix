@@ -39,7 +39,7 @@ description = "Development shell for the stm32f3-discovery board (C)";
             pkg-config
             stlink
             stm32cubemx
-            make
+            gnumake
             gcc-arm-embedded
             newlib-nano
           ];
