@@ -1,7 +1,6 @@
 {
-description = "Development shell for the stm32f3-discovery board (C)";
+  description = "Development shell for the stm32f3-discovery board (C)";
   inputs = {
-
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     devenv.url = "github:cachix/devenv";
@@ -38,17 +37,11 @@ description = "Development shell for the stm32f3-discovery board (C)";
             clang-tools
             pkg-config
             stlink
-            stm32cubemx
             gnumake
             gcc-arm-embedded
             newlib-nano
           ];
-
-          enterShell = ''
-          echo Hello :)
-          '';
         };
       };
-};
+    };
 }
-
