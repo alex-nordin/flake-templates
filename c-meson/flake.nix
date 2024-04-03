@@ -30,17 +30,8 @@
         # module parameters provide easy access to attributes of the same
         # system.
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-        packages.default = {
-          pnaame = "placeholder";
-          src = ./.;
-          nativebuildInputs = with pkgs; [meson ninja pkg-config gcc];
+        packages.default = pkgs.callPackage ./default.nix {};
 
-          meta = with lib; {
-            # homepage = "https://github.com/alex-nordin/PLACEHOLDER";
-            license = with licenses; [mit];
-            maintainers = ["Alex Nordin"];
-          };
-        };
         devenv.shells.default = {
           packages = with pkgs; [
             meson
