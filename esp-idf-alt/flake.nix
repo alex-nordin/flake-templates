@@ -6,7 +6,7 @@
     # agenix-shell.url = "github:aciceri/agenix-shell";
     devenv.url = "github:cachix/devenv";
     rust-overlay.url = "github:oxalica/rust-overlay";
-    esp-idf.url = "github.com:thiskappaisgrey/nixpkgs-esp-dev-rust";
+    esp-idf-src.url = "github.com:thiskappaisgrey/nixpkgs-esp-dev-rust";
   };
 
   outputs = inputs @ {flake-parts, ...}:
@@ -36,31 +36,32 @@
           inherit system;
           overlays = [
             inputs.rust-overlay.overlays.default
+            inputs.esp-idf-src.overlays.default
           ];
         };
 
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
         # packages.default = pkgs.hello;
         devenv.shells.default = {
-          packages = [
+          packages = with pkgs; [
             (inputs.rust-overlay.rust-bin.selectLatestNightlyWith (toolchain:
               toolchain.default.override {
                 extensions = ["rust-src"];
                 # targets = ["riscv32imc-unknown-none-elf"];
               }))
-            inputs.esp-idf.gcc-xtensa-esp32-elf-bin
-            inputs.esp-idf
+            gcc-xtensa-esp32-elf-bin
+            esp-idf
             # pkgs.openssl
-            pkgs.git
-            pkgs.wget
-            pkgs.gnumake
-            pkgs.flex
-            pkgs.bison
-            pkgs.gperf
-            pkgs.pkgconfig
-            pkgs.cmake
-            pkgs.ninja
-            pkgs.ncurses5
+            git
+            wget
+            gnumake
+            flex
+            bison
+            gperf
+            pkgconfig
+            cmake
+            ninja
+            ncurses5
           ];
 
           enterShell = ''
