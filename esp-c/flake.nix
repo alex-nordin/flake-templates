@@ -30,8 +30,9 @@
         devenv.shells.default = {
           # packages = with pkgs; [
           # ];
-          buildInputs = [
-            self'.esp32c3-idf
+          packages = [
+            inputs.esp-idf.esp32c3-idf
+            pkgs.espflash
           ];
         };
       };
