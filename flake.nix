@@ -19,10 +19,6 @@
         path = ./esp-c;
         description = "A template for esp develpoment in C";
       };
-      esp-rust-std = {
-        path = ./esp-idf-alt;
-        description = "A template for Rust development on esp with std";
-      };
     };
   };
 }
