@@ -23,6 +23,10 @@
         path = ./esp-idf-alt;
         description = "A template for Rust development on esp with std";
       };
+      leptos_ssr = {
+        path = ./leptos_ssr_tailwind;
+        description = "A template for fullstack web dev with Leptos & Rust";
+      };
     };
   };
 }
