@@ -1,19 +1,30 @@
 {
-description = "Development shell for esp32 board";
+  description = "Development shell for esp32 board";
   inputs = {
-
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     # agenix-shell.url = "github:aciceri/agenix-shell";
     devenv.url = "github:cachix/devenv";
-    rust-overlay.url = "github:oxalica/rust-overlay";
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    crane = {
+      url = "github:ipetkov/crane";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs @ {flake-parts, ...}:
+  outputs = inputs @ {
+    flake-parts,
+    crane,
+    ...
+  }:
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         # inputs.agenix-shell.flakeModules.default
         inputs.devenv.flakeModule
+        ./cranelib.nix
         # To import a flake module
         # 1. Add foo to inputs
         # 2. Add foo as a parameter to the outputs function
@@ -39,6 +50,8 @@ description = "Development shell for esp32 board";
           ];
         };
 
+        packages.default = self'.packages.my-crate;
+
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
         # packages.default = pkgs.hello;
         devenv.shells.default = {
@@ -53,10 +66,9 @@ description = "Development shell for esp32 board";
           ];
 
           enterShell = ''
-          echo Hello :)
+            echo Hello :)
           '';
         };
       };
-};
+    };
 }
-
