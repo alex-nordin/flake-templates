@@ -2,28 +2,22 @@
   description = "Development shell for esp32 board";
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    # agenix-shell.url = "github:aciceri/agenix-shell";
-    devenv.url = "github:cachix/devenv";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    crane = {
+      url = "github:ipetkov/crane";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    crane = {
-      url = "github:ipetkov/crane";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = inputs @ {
-    flake-parts,
-    crane,
-    ...
-  }:
+  outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         # inputs.agenix-shell.flakeModules.default
-        inputs.devenv.flakeModule
+        # inputs.devenv.flakeModule
         ./cranelib.nix
         # To import a flake module
         # 1. Add foo to inputs
@@ -34,7 +28,7 @@
       perSystem = {
         config,
         self',
-        inputs',
+        # inputs',
         pkgs,
         system,
         lib,
@@ -54,7 +48,7 @@
 
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
         # packages.default = pkgs.hello;
-        devenv.shells.default = {
+        devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             (rust-bin.selectLatestNightlyWith (toolchain:
               toolchain.default.override {
@@ -64,10 +58,6 @@
             openssl
             pkg-config
           ];
-
-          enterShell = ''
-            echo Hello :)
-          '';
         };
       };
     };
