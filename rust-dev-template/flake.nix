@@ -46,13 +46,6 @@
 
         packages.default = self'.packages.my-crate;
 
-        # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-        # packages.default = pkgs.hello;
-        # devShells.${system}.default = pkgs.mkShell.override {
-        #   stdenv = pkgs.stdenvAdapters.useMoldLinker pkgs.clangStdenv;
-        # } {
-        #   packages = [ ... ];
-        # };
         devShells.${system}.default =
           pkgs.mkShell.override {
             stdenv = pkgs.stdenvAdapters.useMoldLinker pkgs.clangStdenv;

@@ -5,7 +5,7 @@
     templates = {
       rust-dev = {
         path = ./rust-dev-template;
-        description = "A template for Rust development, with devenv and flake-parts";
+        description = "A template for Rust development and flake-parts";
       };
       stm-c-dev = {
         path = ./stm-c-template;
