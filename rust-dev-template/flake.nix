@@ -1,5 +1,5 @@
 {
-  description = "Development shell for esp32 board";
+  description = "Development shell for Rust projects";
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -48,17 +48,25 @@
 
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
         # packages.default = pkgs.hello;
-        devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            (rust-bin.selectLatestNightlyWith (toolchain:
-              toolchain.default.override {
-                extensions = ["rust-src"];
-                # targets = ["riscv32imc-unknown-none-elf"];
-              }))
-            openssl
-            pkg-config
-          ];
-        };
+        # devShells.${system}.default = pkgs.mkShell.override {
+        #   stdenv = pkgs.stdenvAdapters.useMoldLinker pkgs.clangStdenv;
+        # } {
+        #   packages = [ ... ];
+        # };
+        devShells.${system}.default =
+          pkgs.mkShell.override {
+            stdenv = pkgs.stdenvAdapters.useMoldLinker pkgs.clangStdenv;
+          } {
+            packages = with pkgs; [
+              (rust-bin.selectLatestNightlyWith (toolchain:
+                toolchain.default.override {
+                  extensions = ["rust-src" "rust-analyzer" "clippy"];
+                  # targets = ["riscv32imc-unknown-none-elf"];
+                }))
+              openssl
+              pkg-config
+            ];
+          };
       };
     };
 }

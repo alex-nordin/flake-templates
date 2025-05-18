@@ -25,7 +25,7 @@ in {
           my-crate.overrideCraneArgs = lib.mkOption {
             type = lib.types.functionTo lib.types.attrs;
             default = _: {};
-            description = "Override crane args for the webbed_site package";
+            description = "Override crane args for crate";
           };
 
           my-crate.rustToolchain = lib.mkOption {
