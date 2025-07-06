@@ -46,7 +46,7 @@
 
         packages.default = self'.packages.my-crate;
 
-        devShells.${system}.default =
+        devShells.default =
           pkgs.mkShell.override {
             stdenv = pkgs.stdenvAdapters.useMoldLinker pkgs.clangStdenv;
           } {
